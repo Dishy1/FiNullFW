@@ -1,0 +1,23 @@
+idf_component_register(
+    SRCS
+        "app_main.c"
+        "mesh.c"
+        "web.c"
+        "sensors.c"
+        "actuators.c"
+        "fsm.c"
+        "config.c"
+        "comms.c"
+    INCLUDE_DIRS "."
+    REQUIRES
+        esp_wifi
+        esp_http_server
+        esp_netif
+        esp_event
+        nvs_flash
+        json
+        driver
+        esp_timer
+        esp_adc
+        esp_pm
+)

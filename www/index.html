@@ -1,0 +1,42 @@
+<!--
+Place the built files from https://github.com/ssa1monn/FiNULLweb under /www.
+This minimal index is provided as a placeholder and demonstrates API usage.
+-->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FiNULL Exit Node</title>
+  <style>
+    body{font-family:system-ui,Arial;margin:20px}
+    .node{border:1px solid #ddd;border-radius:12px;padding:12px;margin:8px 0}
+    .online{background:#e8fff0}
+    .offline{background:#fff4f4}
+    .badge{display:inline-block;padding:2px 8px;border-radius:8px;background:#eee;margin-left:6px}
+  </style>
+</head>
+<body>
+<h1>FiNULL (Exit Node)</h1>
+<p>Nodes below are populated from <code>/api/nodes</code>. Replace this file with FiNULLweb build.</p>
+<div id="list"></div>
+<script>
+async function refresh(){
+  const res = await fetch('/api/nodes');
+  const nodes = await res.json();
+  const list = document.getElementById('list');
+  list.innerHTML = '';
+  nodes.forEach(n => {
+    const d = document.createElement('div');
+    d.className = 'node ' + (n.online? 'online':'offline');
+    d.innerHTML = `<b>${n.hwid||'Unknown'}</b>
+      <span class='badge'>State:${n.fsm_state}</span>
+      <span class='badge'>Simple:${n.simple_state}</span>
+      <div>Expiry: ${n.expiry||'-'} | Temp: ${n.temp?.toFixed(1)}°C | ${n.online?'ONLINE':'OFFLINE'}</div>`;
+    list.appendChild(d);
+  })
+}
+setInterval(refresh, 2000); refresh();
+</script>
+</body>
+</html>
